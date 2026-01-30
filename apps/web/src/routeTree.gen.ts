@@ -9,12 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as HomeRouteImport } from './routes/home'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as OnboardingIndexRouteImport } from './routes/onboarding/index'
 import { Route as OnboardingSkillIndexRouteImport } from './routes/onboarding/skill/index'
+import { Route as ApiMoltHandshakeRouteImport } from './routes/api/molt/handshake'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
+const HomeRoute = HomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -35,6 +42,11 @@ const OnboardingSkillIndexRoute = OnboardingSkillIndexRouteImport.update({
   path: '/onboarding/skill/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiMoltHandshakeRoute = ApiMoltHandshakeRouteImport.update({
+  id: '/api/molt/handshake',
+  path: '/api/molt/handshake',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -44,23 +56,29 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/home': typeof HomeRoute
   '/onboarding/': typeof OnboardingIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/molt/handshake': typeof ApiMoltHandshakeRoute
   '/onboarding/skill/': typeof OnboardingSkillIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/home': typeof HomeRoute
   '/onboarding': typeof OnboardingIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/molt/handshake': typeof ApiMoltHandshakeRoute
   '/onboarding/skill': typeof OnboardingSkillIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/home': typeof HomeRoute
   '/onboarding/': typeof OnboardingIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/molt/handshake': typeof ApiMoltHandshakeRoute
   '/onboarding/skill/': typeof OnboardingSkillIndexRoute
 }
 export interface FileRouteTypes {
@@ -68,30 +86,50 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/home'
     | '/onboarding/'
     | '/api/auth/$'
+    | '/api/molt/handshake'
     | '/onboarding/skill/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/onboarding' | '/api/auth/$' | '/onboarding/skill'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/home'
+    | '/onboarding'
+    | '/api/auth/$'
+    | '/api/molt/handshake'
+    | '/onboarding/skill'
   id:
     | '__root__'
     | '/'
     | '/dashboard'
+    | '/home'
     | '/onboarding/'
     | '/api/auth/$'
+    | '/api/molt/handshake'
     | '/onboarding/skill/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
+  HomeRoute: typeof HomeRoute
   OnboardingIndexRoute: typeof OnboardingIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiMoltHandshakeRoute: typeof ApiMoltHandshakeRoute
   OnboardingSkillIndexRoute: typeof OnboardingSkillIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -120,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingSkillIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/molt/handshake': {
+      id: '/api/molt/handshake'
+      path: '/api/molt/handshake'
+      fullPath: '/api/molt/handshake'
+      preLoaderRoute: typeof ApiMoltHandshakeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -133,8 +178,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
+  HomeRoute: HomeRoute,
   OnboardingIndexRoute: OnboardingIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiMoltHandshakeRoute: ApiMoltHandshakeRoute,
   OnboardingSkillIndexRoute: OnboardingSkillIndexRoute,
 }
 export const routeTree = rootRouteImport
