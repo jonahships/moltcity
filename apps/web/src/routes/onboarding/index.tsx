@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import OnboardingDialog from "@/components/blocks/auth/onboaridng";
+import OnboardingDialog from "@/components/blocks/auth/onboarding";
 
 export const Route = createFileRoute("/onboarding/")({
   component: OnboardingPage,
