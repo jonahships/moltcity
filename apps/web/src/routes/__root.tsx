@@ -12,12 +12,12 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { createServerFn } from "@tanstack/react-start";
+import { ThemeProvider } from "next-themes";
 
 import { Toaster } from "@/components/ui/sonner";
 import { authClient } from "@/lib/auth-client";
 import { getToken } from "@/lib/auth-server";
 
-import Header from "../components/header";
 import appCss from "../index.css?url";
 
 const getAuth = createServerFn({ method: "GET" }).handler(async () => {
@@ -75,24 +75,30 @@ function RootDocument() {
       authClient={authClient}
       initialToken={context.token}
     >
-      <html lang="en" className="dark">
+      <html lang="en" suppressHydrationWarning>
         <head>
           <HeadContent />
         </head>
         <body>
-          <div
-            className={
-              isHome
-                ? "h-dvh overflow-hidden"
-                : "grid h-svh grid-rows-[auto_1fr]"
-            }
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
           >
-            {!isHome ? <Header /> : null}
-            <Outlet />
-          </div>
-          <Toaster richColors />
-          <TanStackRouterDevtools position="bottom-left" />
-          <Scripts />
+            <div
+              className={
+                isHome
+                  ? "h-dvh overflow-hidden"
+                  : "grid h-svh grid-rows-[auto_1fr]"
+              }
+            >
+              <Outlet />
+            </div>
+            <Toaster richColors />
+            <TanStackRouterDevtools position="bottom-left" />
+            <Scripts />
+          </ThemeProvider>
         </body>
       </html>
     </ConvexBetterAuthProvider>
